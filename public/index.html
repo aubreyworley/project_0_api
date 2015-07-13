@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+      <!-- bootstrap css -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      
+      <link rel="stylesheet" href="style.css">
+      
+      <!-- stylesheet -->
+      <link type="text/css" rel="stylesheet" href="styles/main.css">
+
+      <!-- client-side javascript -->
+      <script type="text/javascript" src="scripts/main.js"></script>
+      
+      <title>Microblog</title>
+  </head>
+  <body>
+     
+    <!-- header -->
+     <nav class="navbar navbar-custom">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">SF Serenades</a>
+        </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#"> Home <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Notifications</a></li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search Stories">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">User Profile</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+  
+  <!-- page content -->
+  <div class="container">
+  <div class="jumbotron text-center">
+    <a href="http://imgur.com/o1VMrS5"><img src="http://i.imgur.com/o1VMrS5.jpg" title="source: imgur.com" /></a>
+    <h1>San Francisco Serenades</h1>
+    <p>Our City. Our People. Our Stories.</p>
+</div>
+
+ <div class="container">
+    <div class="row">
+      <div class="darBG col-sm-12 text-center"> 
+        
+        <p>San Francisco is a small, yet explosive 7x7 city. Within each district, each mile, each block lies unique culture, food, people and stories. It can be overwhelming, breathtaking, invigorating, eye opening, lonely, inclusive, scary, comforting, wretched, and magnificent all at the same time. It is a home for the artists, the musicians, the tourists, the hippies, the soul-searchers, the techies, the immigrants and everyone in between. It is a community working towards a greater future with individuals all fighting to survive, embrace, and love the magical City by the Bay. The constant, enthralling struggle to survive and thrive in the city, is what gives all San Franciscans a commonality no matter where they're from. San Francisco Serenades is a microblog that offers an online community platform for the people of SF to tell their stories: the good, the bad, the ugly, the beautiful.</p>
+  </div>
+  
+  
+  <!-- new story form-->
+  <div class="container">
+    <div class="row">
+      <div class="darBG col-sm-12 text-center"> 
+        <h1>Posts</h1>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addPostModal">
+           Add Your Stories!
+        </button>
+  </div>
+
+
+<div id="addPostModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">Add New Story</h2>
+      </div>
+      <div class="modal-body">
+        <div class="bold"> Your District</div>
+        <div class="margin-top-20">
+          <input id="title" type="text" class="form-control"/>
+        </div>
+        <div class="bold margin-top-20">Your Story </div>
+        <div class="margin-top-20">
+          <input id="title" type="text" class="form-control"/>
+        </div>
+      </div>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id="new-story" type="button" class="btn btn-primary">Save Story</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<!-- placeholder comments -->
+<div class="detailBox">
+    <div class="titleBox">
+      <label>Comment Box</label>
+        <button type="button" class="close" aria-hidden="true">&times;</button>
+    </div>
+    <div class="commentBox">
+        
+        <p class="taskDescription">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+    </div>
+    <div class="actionBox">
+        <ul class="commentList">
+            <li>
+                <div class="commenterImage">
+                  <img src="http://lorempixel.com/50/50/people/6" />
+                </div>
+                <div class="commentText">
+                    <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                </div>
+            </li>
+            <li>
+                <div class="commenterImage">
+                  <img src="http://lorempixel.com/50/50/people/7" />
+                </div>
+                <div class="commentText">
+                    <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                </div>
+            </li>
+            <li>
+                <div class="commenterImage">
+                  <img src="http://lorempixel.com/50/50/people/9" />
+                </div>
+                <div class="commentText">
+                    <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>
+
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Your comments" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+     
+
+
+  <!-- jquery -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+      
+  <!-- bootstrap js -->
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <!-- underscore -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+  <!-- custom script -->
+  <script type="text/javascript" src="script.js"></script>
+
+  <!-- underscore template -->
+  <script type="text/template" id="post-template">
+    <div class="post">
+      <p>
+        <span class="post-text"><%= post %> </span>
+        &nbsp;
+        <button type="button" class="close delete" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </p>
+      <hr>
+    </div>
+  </script>
+
+  <script type="text/template" id="story-template">
+    <li class="list-group-item story" id="story-<%= id %>" data-id="<%= id %>">
+
+    //<!-- story label (district) -->
+    <span class="label label-default"><%= district %></span>
+
+    //<!-- story -->
+    <%= story %>
+
+    //<!-- delete button -->
+    //<button class="close right side delete-story" aria-label="Close">
+      //<span aria-hidden="true">&times;</span>
+    //</button>
+
+  <!-- edit link (pencil icon) to toggle form -->
+      <a class="edit-pencil" data-toggle="collapse" data-target="#update-<%= id %>">
+        <span class="glyphicon glyphicon-pencil edit"></span>
+      </a>
+
+     // <!-- form to update story -->
+     // <div class="collapse" id="update-<%= id %>">
+        //<br>
+        //<form class="form-inline update-story">
+          //<input type="text" class="form-control updated-district" value="<%= story %>" placeholder="New word?">
+          //<input type="text" class="form-control updated-definition" value="<%= definition %>" placeholder="New definition?">
+          //<input type="submit" class="btn btn-default" value="Update phrase">
+        //</form>
+      //</div>
+    //</li>
+  </script>
+
+    
+</body>
+</html>
