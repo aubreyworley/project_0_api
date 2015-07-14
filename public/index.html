@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html>
-  
-  <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
       
-      <!-- bootstrap css -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- bootstrap css -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
       
-      <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
       
-      <!-- stylesheet -->
-      <link type="text/css" rel="stylesheet" href="styles/main.css">
+  <!-- stylesheet -->
+  <link type="text/css" rel="stylesheet" href="styles/main.css">
 
-      <!-- client-side javascript -->
-      <script type="text/javascript" src="scripts/main.js"></script>
+  <!-- client-side javascript -->
+  <script type="text/javascript" src="scripts/main.js"></script>
       
       <title>Microblog</title>
   </head>
@@ -85,13 +84,13 @@
       <div class="darBG col-sm-12 text-center"> 
         <h1>Posts</h1>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addPostModal">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#new-post">
            Add Your Stories!
         </button>
   </div>
 
 
-<div id="addPostModal" class="modal fade">
+<div id="new-post" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -111,12 +110,13 @@
     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button id="new-story" type="button" class="btn btn-primary">Save Story</button>
+        <button id="new-post" type="button" class="btn btn-primary">Save Story</button>
       </div>
+          <!-- list of posts  -->
+    <ul class="list-group" id="post-list"></ul>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 
 
 
@@ -187,6 +187,32 @@
 
   <!-- underscore template -->
   <script type="text/template" id="post-template">
+    <li class="list-group-item post" id="post-<%= id %>" data-id="<%= id %>">
+
+    // <!-- post content -->
+      <%= district %>: <%= story %>
+
+    // <!-- delete button -->
+      <button class="close right-side delete-post" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    //<!-- edit link (pencil icon) to toggle form -->
+  //     <a class="edit-pencil" data-toggle="collapse" data-target="#update-<%= id %>">
+  //       <span class="glyphicon glyphicon-pencil edit"></span>
+  //     </a>
+
+  //    <!-- form to update post -->
+  //     <div class="collapse" id="update-<%= id %>">
+  //       <br>
+  //       <form class="form-inline update-post">          
+  //         <input type="text" class="form-control updated-district" value="<%= district %>" placeholder="Say what now?">
+  //         <input type="text" class="form-control updated-story" value="<%= story %>" placeholder="Says who?">
+  //         <input type="submit" class="btn btn-default" value="Update post">
+  //       </form>
+  //     </div>
+  //   </li>
+  
     <div class="post">
       <p>
         <span class="post-text"><%= post %> </span>
@@ -205,27 +231,6 @@
 
     //<!-- post label (story) -->
     <%= story %>
-
-    //<!-- delete button -->
-    <button class="close right side delete-story" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-
-  <!-- edit link (pencil icon) to toggle form -->
-      <a class="edit-pencil" data-toggle="collapse" data-target="#update-<%= id %>">
-        <span class="glyphicon glyphicon-pencil edit"></span>
-      </a>
-
-     // <!-- form to update post -->
-     // <div class="collapse" id="update-<%= id %>">
-     //    <br>
-     //    <form class="form-inline update-post">
-     //      <input type="text" class="form-control updated-district" value="<%= district %>" placeholder="New word?">
-          //<input type="text" class="form-control updated-definition" value="<%= definition %>" placeholder="New definition?">
-          //<input type="submit" class="btn btn-default" value="Update phrase">
-        //</form>
-      //</div>
-    //</li>
   </script>
 
     
