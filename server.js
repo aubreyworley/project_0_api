@@ -4,8 +4,7 @@
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser');
-    _ = require('underscore');
-
+   
 // configure bodyParser (for handling data)
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -16,15 +15,19 @@ app.use(express.static(__dirname + '/public'));
 // include mongoose
 var mongoose = require('mongoose');
 
+
 // require Post module from other file
 var Post = require('./models/post');
 
+// include our module from the other file
+var db = require("./models/post");
+
 // connect a server to database
-mongoose.connect('mongodb://localhost/posts');
+mongoose.connect('mongodb://localhost/microblog');
 
 // STATIC ROUTES
 
-//tell our Express app to server static HTML files
+//tell our Express app to serve static HTML files
 // root route(serves index.html)
 app.get('/', function (req, res) {
   res.sendFile(_dirname + '/public/views/index.html');
@@ -34,14 +37,14 @@ app.get('/', function (req, res) {
 
 // get all posts
 app.get('/api/posts', function (req, res) {
-  // find all posts in db
-  Post.find({}, function (err, allposts) {
+  // find all posts in db and populate the post's author info.
+ db.Post.find({}).populate('author').exec(function(err, allPosts){
     if (err){
-      console.log("error: ", err);
+      console.log("! error: ", err);
       res.status(500).send(err);
     } else {
       // send all posts as JSON response
-      res.json(posts);
+      res.json(allPosts);
     }
   });
 
@@ -49,9 +52,17 @@ app.get('/api/posts', function (req, res) {
 
 // create new post
 app.post('/api/posts', function (req, res) {
-  // create new post with form data (`req.body`)
-  var newPost = new Post({
-    district: req.body.district,
+  // use params (district and story) from request body
+
+  // create the author (we'll assume it doesn't exist yet)
+  var newAuthor = new db.Author({
+    name: req.body.author
+  });
+  newAuthor.save();
+
+  // create a new post
+  var newPost = new db.Post({
+    district: newDistrict._id,
     story: req.body.story
   });
 
@@ -67,29 +78,14 @@ app.post('/api/posts', function (req, res) {
   });
 });
 
-// // grab params (story and district) from form data
-//   var newPost = {}
-//   newPost.district = req.body.district;
-//   newPost.story = req.body.story;
-  
-//   // set a unique id never used by a post until now
-//   totalPostCount++;
-//   newPost.id = totalPostCount;
-
-//   // add newPost to `posts` array
-//   posts.push(newPost);
-
 // get a single post 
 app.get('/api/posts/:id', function(req, res) {
 
   // take the value of the id from the url parameter
-  var targetId = parseInt(req.params.id);
-
-  // find item in `posts` array matching the id
-  // var foundPost = _.findWhere(posts, {id: targetId});
+  var targetId = req.params.id
 
   // find item in database matching the id
-  Post.findOne({_id: targetId}, function(err, foundPost){
+  db.Post.findOne({_id: targetId}, function(err, foundPost){
     console.log(foundPost);
     if(err){
       console.log("error: ", err);
@@ -105,12 +101,11 @@ app.get('/api/posts/:id', function(req, res) {
 // update single post
 app.put('/api/posts/:id', function(req, res) {
 
-  // take the value of the id from the url parameter
-  var targetId = parseInt(req.params.id);
+// take the value of the id from the url parameter
+  var targetId = req.params.id;
 
   // find item in `posts` array matching the id
-  //var foundPost = _.findWhere(posts, {id: targetId});
-  Post.findOne({_id: targetId}, function(err, foundPost){
+  db.Post.findOne({_id: targetId}, function(err, foundPost){
     console.log(foundPost); 
 
     if(err){
@@ -137,47 +132,101 @@ app.put('/api/posts/:id', function(req, res) {
   });  
 
 });
-  // // update the post's story
-  // foundPost.story = req.body.story;
-
-  // // update the post's district
-  // foundPost.district = req.body.district;
-
-  // // send back edited object
-  // res.json(foundPost);
-
 
 // delete post
 app.delete('/api/posts/:id', function(req, res) {
   
-// take the value of the id from the url parameter
+  // take the value of the id from the url parameter
   var targetId = req.params.id;
 
  // remove item from the db that matches the id
-   Post.findOneAndRemove({_id: targetId}, function (err, deletedPost) {
+   db.Post.findOneAndRemove({_id: targetId}, function (err, deletedPost) {
     if (err){
       res.status(500).send(err);
     } else {
       // send back deleted post
       res.json(deletedPost);
+    }
   });
 });
 
-// // take the value of the id from the url parameter
-  // var targetId = parseInt(req.params.id);
+// get all comments for one post
+app.get('/api/posts/:postid/comments', function(req, res){
+  // query the database to find the post indicated by the id
+  db.Post.findOne({_id: req.params.postid}, function(err, post){
+    // send the post's comments as the JSON response
+    res.json(post.comments);
+  });
+});
 
-  // // find item in `posts` array matching the id
-  // var foundPost = _.findWhere(posts, {id: targetId});
+// add a new comment to a post
+app.post('/api/posts/:postid/comments', function(req, res){
 
-  // // get the index of the found item
-  // var index = posts.indexOf(foundPost);
-  
-  // // remove the item at that index, only remove 1 item
-  // posts.splice(index, 1);
-  
-  // // send back deleted object
-  // res.json(foundPost);
-// });
+  // query the database to find the post indicated by the id
+  db.Post.findOne({_id: req.params.postid}, function(err, post){
+    // create a new comment record
+    var newComment = new db.Comment({text: req.body.text});
+
+    // add the new comment to the post's list of embedded comments
+    post.comments.push(newComment);
+
+    // send the new comment as the JSON response
+    res.json(newComment);
+  });
+});
+
+// get all authors
+app.get('/api/authors', function(req, res){
+  // query the database to find all authors
+  db.Author.find({}, function(err, authors){
+    // send the authors as the JSON response
+    res.json(authors);
+  });
+}); 
+
+// create a new author
+app.post('/api/authors', function(req, res){
+  // make a new author, using the name from the request body
+  var newAuthor = new db.Author({name: req.body.name});
+
+  // save the new author
+  newAuthor.save(function(err, author){
+    // send the new author as the JSON response
+    res.json(author);
+  });
+});
+
+// assign a specific author to a specific post
+
+app.put('/api/posts/:postid/authors/:authorid', function(req, res){
+  // query the database to find the author 
+  // (to make sure the id actually matches an author)
+  db.Author.find({_id: req.params.authorid}, function(err, author){
+    if (err){
+      console.log("error: ", err);
+      res.status(500).send("no author with id "+req.params.authorid);
+    } else {
+      // query the database to find the post
+      db.Post.find({_id: req.params.postid}, function(err, post){
+
+        if (err){  
+          res.status(500).send("no post with id"+req.params.postid);
+        } else {  // we found a post!
+          // update the post to reference the author
+          post.author = author._id;
+
+          // save the updated post
+          post.save(function(err, savedPost){
+            // send the updated post as the JSON response
+            res.json(savedPost);
+          });
+        }
+      });
+    }
+  });
+});
+
+
 
 // set server to localhost:3000
 app.listen(3000, function () {
